@@ -3,8 +3,17 @@ package recursos;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 class LaminaCalculadora extends JPanel {
 
+    //variables locales
+    private JPanel milamina2;
+    private JButton pantalla;
+    private boolean principio;
+    private double resultado;
+    private String ultimaOperacion;
+
+    //constructor
     public LaminaCalculadora() {
 
         principio = true;
@@ -20,17 +29,17 @@ class LaminaCalculadora extends JPanel {
         add(pantalla, BorderLayout.NORTH);
 
         milamina2.setLayout(new GridLayout(4, 5));
+
         ActionListener insertar = new InsertaNumero();
         ActionListener orden = new Accionorden();
         ActionListener ordenBorrar = new AccionBorrar();
-         
         ponerBoton("7", insertar);
         ponerBoton("8", insertar);
         ponerBoton("9", insertar);
 
         ponerBoton("/", orden);
         ponerBoton("C", ordenBorrar);
-        
+
         ponerBoton("4", insertar);
         ponerBoton("5", insertar);
         ponerBoton("6", insertar);
@@ -51,9 +60,27 @@ class LaminaCalculadora extends JPanel {
         ponerBoton("+", orden);
 
         add(milamina2, BorderLayout.CENTER);
-        ultimaOperacion="=";
+        ultimaOperacion = "=";
 
-    }
+    }//constructor
+
+    //METODOS
+    private void calcular(double tecla) {
+
+        if (ultimaOperacion.equals("+")) {
+            resultado += tecla;
+        } else if (ultimaOperacion.equals("-")) {
+            resultado -= tecla;
+        } else if (ultimaOperacion.equals("X")) {
+            resultado *= tecla;
+        } else if (ultimaOperacion.equals("/")) {
+            resultado /= tecla;
+        } else if (ultimaOperacion.equals("=")) {
+            resultado = tecla;
+        }
+
+        pantalla.setText("" + resultado);
+    }//calcular
 
     private void ponerBoton(String nombre, ActionListener oyente) {
 
@@ -62,9 +89,25 @@ class LaminaCalculadora extends JPanel {
         boton.addActionListener(oyente);
         milamina2.add(boton);
 
-    }
+    }//ponerBoton
 
-    //CLASE INTERNA 
+    //CLASES INTERNAS
+    private class Accionorden implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String operacion = e.getActionCommand();
+
+            calcular(Double.parseDouble(pantalla.getText()));
+
+            ultimaOperacion = operacion;
+
+            principio = true;
+
+        }
+    }//Accionorden
+
     private class InsertaNumero implements ActionListener {
 
         @Override
@@ -76,65 +119,22 @@ class LaminaCalculadora extends JPanel {
 
                 pantalla.setText("");
 
-                principio = true;
+                principio = false;
             }
             pantalla.setText(pantalla.getText() + entrada);
         }
 
-    }
-    //clase interna
-    private class AccionBorrar implements ActionListener{
+    }//InsertaNumero
+    
+    private class AccionBorrar implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        pantalla.setText("0");
-         principio = true;
-        }
-        
-    } 
-
-    //clase interna
-    private class Accionorden implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            
-            String operacion = e.getActionCommand();
-            
-            calcular(Double.parseDouble(pantalla.getText()));
-            
-            ultimaOperacion=operacion;
-                    
+            pantalla.setText("0");
             principio = true;
 
         }
 
-        //metodo principal
-        private void calcular(double tecla) {
-        
-            if (ultimaOperacion.equals("+")) {
-                resultado+=tecla;
-            }
-            else if (ultimaOperacion.equals("+")){
-                resultado-=tecla;
-            }
-            else if (ultimaOperacion.equals("X")){
-                resultado*=tecla;
-            }
-            else if (ultimaOperacion.equals("/")){
-                resultado/=tecla;
-            }
-            else if (ultimaOperacion.equals("=")){
-                resultado=tecla;
-            }
-            
-            pantalla.setText("" + resultado);
-        }
+    }//AccionBorrar
 
-    }
-    private JPanel milamina2;
-    private JButton pantalla;
-    private boolean principio;
-    private double resultado;
-    private String ultimaOperacion;
-}
+}//fin clase principal
