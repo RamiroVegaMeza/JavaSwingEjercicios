@@ -1,31 +1,8 @@
-package calculadora;
+package recursos;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
-public class Calculadora {
-
-    public static void main(String[] args) {
-        MarcoCalculadora mimarco = new MarcoCalculadora();
-        mimarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mimarco.setVisible(true);
-
-    }
-}
-
-class MarcoCalculadora extends JFrame {
-
-    public MarcoCalculadora() {
-        setTitle("Calculadora");
-
-        setBounds(500, 300, 450, 300);
-
-        LaminaCalculadora milamina = new LaminaCalculadora();
-        add(milamina);
-    }
-}
-
 class LaminaCalculadora extends JPanel {
 
     public LaminaCalculadora() {
@@ -115,6 +92,8 @@ class LaminaCalculadora extends JPanel {
         }
 
     }
+    //clase interna
+    private class borrar implements 
 
     //clase interna
     private class Accionorden implements ActionListener {
