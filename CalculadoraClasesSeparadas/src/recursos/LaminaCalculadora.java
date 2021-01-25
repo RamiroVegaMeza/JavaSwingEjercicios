@@ -19,28 +19,18 @@ class LaminaCalculadora extends JPanel {
 
         add(pantalla, BorderLayout.NORTH);
 
-        milamina2.setLayout(new GridLayout(4, 4));
-
-        /**
-         * forma 1: JButton boton1 = new JButton("1"); milamina2.add(boton1);
-         *
-         * JButton boton2 = new JButton("2"); milamina2.add(boton2);
-         *
-         * JButton boton3 = new JButton("2"); milamina2.add(boton3);
-         *
-         * add(milamina2,BorderLayout.CENTER);
-         *
-         */
-        //forma 2:
+        milamina2.setLayout(new GridLayout(4, 5));
         ActionListener insertar = new InsertaNumero();
         ActionListener orden = new Accionorden();
-
+        ActionListener ordenBorrar = new AccionBorrar();
+         
         ponerBoton("7", insertar);
         ponerBoton("8", insertar);
         ponerBoton("9", insertar);
 
         ponerBoton("/", orden);
-
+        ponerBoton("C", ordenBorrar);
+        
         ponerBoton("4", insertar);
         ponerBoton("5", insertar);
         ponerBoton("6", insertar);
@@ -86,14 +76,22 @@ class LaminaCalculadora extends JPanel {
 
                 pantalla.setText("");
 
-                principio = false;
+                principio = true;
             }
             pantalla.setText(pantalla.getText() + entrada);
         }
 
     }
     //clase interna
-    private class borrar implements 
+    private class AccionBorrar implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        pantalla.setText("0");
+         principio = true;
+        }
+        
+    } 
 
     //clase interna
     private class Accionorden implements ActionListener {
